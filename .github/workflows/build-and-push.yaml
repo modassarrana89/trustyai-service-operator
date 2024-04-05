@@ -68,19 +68,19 @@ jobs:
         if:  env.BUILD_CONTEXT == 'test'
         run: |
           echo "TAG=latest" >> $GITHUB_ENV
-          echo "IMAGE_NAME=${{ vars.QUAY_RELEASE_REPO }}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=quay.io/morana/trustyai/trustyai-service-operator" >> $GITHUB_ENV
       - name: Set tag environment
         if: env.BUILD_CONTEXT == 'tag'
         run: |
           echo "TAG=${{ github.ref_name }}" >> $GITHUB_ENV
-          echo "IMAGE_NAME=${{ vars.QUAY_RELEASE_REPO }}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=quay.io/morana/trustyai/trustyai-service-operator" >> $GITHUB_ENV
 
        # Run docker commands
       - name: Put expiry date on CI-tagged image
         if:  env.BUILD_CONTEXT == 'ci'
         run: sed -i 's#summary="odh-trustyai-service-operator\"#summary="odh-trustyai-service-operator" \\ \n      quay.expires-after=7d#' Dockerfile
       - name: Log in to Quay
-        run: docker login -u ${{ secrets.QUAY_ROBOT_USERNAME }} -p ${{ secrets.QUAY_ROBOT_SECRET }} quay.io
+        run: docker login -u morana -p "Cgkc6cGY0aAgyqDboVQceocJuH5Vw7CSs+FZ/x4KDYGTTMSun/eTYydqZqSLw3kPpq8HOeDseHPOcAMEQmwJLA==" quay.io
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
